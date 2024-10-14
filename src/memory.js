@@ -1,5 +1,10 @@
 class MemoryGame {
   constructor(cards) {
+    if (!cards || !Array.isArray(cards) || cards.length === 0) {
+      console.warn("No cards array provided or the array is empty.");
+      this.cards = undefined; // This is where the 'undefined' behavior is handled.
+      return;
+    }
     this.cards = cards;
     // add the rest of the class properties here
     this.pickedCards = []; // Stores the currently flipped cards for comparison
@@ -9,14 +14,25 @@ class MemoryGame {
 
   shuffleCards() {
     // ... write your code here
-    // Method to shuffle cards using Fisher-Yates (Durstenfeld) Shuffle
-    if (!this.cards) return undefined;
-    for (let i = this.cards.length - 1; i > 0; i--) {
-      let randomIndex = Math.floor(Math.random() * (i + 1));
-      // Swap cards[i] and cards[randomIndex]
-      [this.cards[i], this.cards[randomIndex]] = [this.cards[randomIndex], this.cards[i]];
+    if (!this.cards) {
+      console.warn("Cannot shuffle because no cards are defined.");
+      return; // Early exit if no cards are defined.
     }
-    return this.cards;
+    
+    let currentIndex = this.cards.length;
+    let randomIndex, tempValue;
+
+    // While there remain elements to shuffle
+    while (currentIndex !== 0) {
+      // Pick a remaining element
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      // Swap the current element with the randomly selected one
+      tempValue = this.cards[currentIndex];
+      this.cards[currentIndex] = this.cards[randomIndex];
+      this.cards[randomIndex] = tempValue;
+    }
   }
 
   checkIfPair(card1, card2) {

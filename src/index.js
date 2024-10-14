@@ -26,6 +26,7 @@ const cards = [
 ];
 
 const memoryGame = new MemoryGame(cards);
+memoryGame.shuffleCards();
 
 window.addEventListener('load', (event) => {
   // Add the cards to the HTML
@@ -74,6 +75,7 @@ window.addEventListener('load', (event) => {
             pickedCards.length = 0; // Clear picked cards
           }, 1000);
         }
+        console.log('Card clicked: ', card);
 
         // Check if the game is finished
         if (memoryGame.checkIfFinished()) {
